@@ -1,18 +1,16 @@
 <%--
   Created by IntelliJ IDEA.
-  User: DELL
-  Date: 2020/9/15
-  Time: 17:22
+  User: 谢磊
+  Date: 2020/9/17
+  Time: 12:23
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page isELIgnored="false" %>
 <html>
 <head>
     <title>Title</title>
 </head>
 <body>
-${username}
-${password}
+false
 </body>
 </html>

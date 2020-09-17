@@ -1,6 +1,6 @@
 <html>
 <body>
-<form method="post" name="zhuce" action="/user/register">
+<form method="get"  action="/user/weblogin">
     <input type="text" name="username" /><br>
     <input type="password" name="password" /><br>
     <input type="submit" value="login">

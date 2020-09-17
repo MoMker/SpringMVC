@@ -18,10 +18,10 @@
                 <value>com.mysql.cj.jdbc.Driver</value>
             </property>
             <property name="url">
-                <value>jdbc:mysql://localhost/apps?serverTimezone=UTC</value>
+                <value>jdbc:mysql://localhost/user?serverTimezone=UTC</value>
             </property>
             <property name="username">
-                <value>root</value>
+                <value>app</value>
             </property>
             <property name="password">
                 <value>200201</value>

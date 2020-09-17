@@ -3,8 +3,10 @@ package USER.Dao;
 import USER.POJO.User;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 public interface UserDao {
-   User Findall();
-   User Findpsd(String name);
-    User doInsert(String username,String password);
+   List<User> findAll();
+   User findUser(User user);
+   void doInsert(User user);
 }

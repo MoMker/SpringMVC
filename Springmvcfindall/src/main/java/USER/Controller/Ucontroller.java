@@ -1,39 +1,52 @@
 package USER.Controller;
 
 import USER.POJO.User;
-import USER.Dao.UserDao;
+import USER.service.UserPerform;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpSession;
+import java.util.List;
 
 
 @Controller
 @RequestMapping("user")
 public class Ucontroller {
     @Autowired
-     private UserDao userDao;
-     @RequestMapping("/findall")
-     @ResponseBody
-    public ModelAndView Findall(){
-        User user = userDao.Findall();
-         ModelAndView modelAndView = new ModelAndView();
-         modelAndView.addObject("username",user.getUsername());
-         modelAndView.addObject("password",user.getPassword());
-         modelAndView.setViewName("/index.jsp");
-         return modelAndView;
+    private UserPerform userPerform;
+    @RequestMapping(value = "/login",method = RequestMethod.GET)
+    public String doUser(@RequestBody User user, HttpSession session){
+        try {
+            User user1 = userPerform.login(user);
+            session.setAttribute("user", user1);
+            return "success";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "false";
+        }
     }
-    @RequestMapping(value = "/hello",method = RequestMethod.GET)
+    @RequestMapping(value = "/weblogin",method = RequestMethod.GET)
+    public String doUserInWeb(@RequestParam(value = "username") String username, @RequestParam(value = "password") String password, HttpSession session){
+        try {
+            User user = new User(username, password);
+            User user1 = userPerform.login(user);
+            session.setAttribute("user", user1);
+            return "success";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "false";
+        }
+    }
+    @RequestMapping(value = "/register",method = RequestMethod.POST)
     @ResponseBody
-    public User doUser(@RequestParam(value = "username") String name){
-        User users = userDao.Findpsd(name);
-        return users;
+    public String doInsert(@RequestBody User user){
+         userPerform.register(user);
+         return "Success";
     }
-
-    @RequestMapping(value = "/register",method = RequestMethod.GET)
-    public String doInsert(@RequestParam(value = "username") String username,@RequestParam(value = "password") String password){
-         userDao.doInsert(username,password);
-         return "findall";
+    @RequestMapping(value = "/findall", method = RequestMethod.GET)
+    @ResponseBody
+    public List<User> findAllUser(){
+        return userPerform.allUser();
     }
 }

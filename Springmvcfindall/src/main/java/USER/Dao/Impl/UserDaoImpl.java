@@ -8,33 +8,35 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class UserDaoImpl implements UserDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public User Findall() {
-        String sql = "select * from users";
+    public List<User> findAll() {
+        String sql = "select * from user_list";
         RowMapper<User> rowMapper = new BeanPropertyRowMapper<User>(User.class);
-        User user = jdbcTemplate.queryForObject(sql, rowMapper);
-        return user;
+        List<User> list = jdbcTemplate.query(sql, rowMapper);
+        return list;
     }
 
     @Override
-    public User Findpsd(String name) {
-        String sqls = "select * from users where username = ?";
+    public User findUser(User user) {
+        String sqls = "select * from user_list where username = ? and password = ?";
+        Object[] params = {user.getUsername(), user.getPassword()};
         RowMapper<User> rowMapper = new BeanPropertyRowMapper<User>(User.class);
-        User user = jdbcTemplate.queryForObject(sqls, rowMapper,name);
-        return user;
+        User userA = jdbcTemplate.queryForObject(sqls, params, rowMapper);
+        return userA;
     }
 
     @Override
-    public User doInsert(String username, String password) {
-        String sql = "insert into users(username,password) values (?,?)";
-        RowMapper<User> rowMapper = new BeanPropertyRowMapper<User>(User.class);
-        User user = jdbcTemplate.queryForObject(sql, rowMapper,username,password);
-        return user;
+    public void doInsert(User user) {
+        String sql = "insert into user_list(username,password) values(?,?)";
+        Object[] params = {user.getUsername(), user.getPassword()};
+        jdbcTemplate.update(sql, params);
     }
 
 }
